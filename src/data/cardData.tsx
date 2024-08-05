@@ -1,4 +1,6 @@
-export const cardData = [
+import {CardData} from "@/components/Cards";
+
+export const cardData: CardData[] = [
     {
         price: "R$ 17.400,00",
         icon: "/images/Entradas.png",

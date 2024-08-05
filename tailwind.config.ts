@@ -17,7 +17,7 @@ const config: Config = {
         "income": "var(--income)",
         "outcome": "var(--outcome)",
         "header": "var(--header)",
-        "table-header": "var(--table-header)",
+        "list-header": "var(--list-header)",
         "income-value": "var(--income-value)",        
         "button" : "var(--button)",
         "modal" : "var(--modal)",
