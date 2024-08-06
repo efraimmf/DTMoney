@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -9,7 +9,8 @@ interface ModalProps {
         title: string;
         price: number;
         category: string;
-        type: "income" | "outcome" }) => void;
+        type: 'income' | 'outcome';
+    }) => Promise<void>;
 }
 
 export default function Modal(modalProps: ModalProps) {
@@ -18,19 +19,24 @@ export default function Modal(modalProps: ModalProps) {
     const [category, setCategory] = useState('');
     const [type, setType] = useState<'income' | 'outcome'>();
 
-    const handleAddTransaction = () => {
-        const priceNumber = parseFloat(price.replace(/[^0-9.-]+/g,""));
+    const handleAddTransaction = async () => {
+        const priceNumber = parseFloat(price.replace(/[^0-9.-]+/g, ""));
         if (isNaN(priceNumber)) {
             alert('Preço inválido');
             return;
         }
-        modalProps.addTransaction({
-            title,
-            price: priceNumber,
-            category,
-            type: type ?? 'income',
-        });
-        modalProps.closeModal();
+        try {
+            await modalProps.addTransaction({
+                title,
+                price: priceNumber,
+                category,
+                type: type ?? 'income',
+            });
+            modalProps.closeModal();
+        } catch (error) {
+            alert('Erro ao adicionar transação');
+            console.error(error);
+        }
     };
 
     return (
@@ -66,7 +72,7 @@ export default function Modal(modalProps: ModalProps) {
                             <button
                                 onClick={() => setType('income')}
                                 className={`flex items-center justify-center w-[236px] h-[64px] p-3 border rounded-md ${type === 'income' ? 'bg-green-200' : 'text-title hover:bg-green-200'}`}>
-                                <Image src="/images/Entradas.png" alt="Entrada" width={24} height={24}/>
+                                <Image src="/images/Entradas.png" alt="Entrada" width={24} height={24} />
                                 <span className="ml-2">Entrada</span>
                             </button>
                             <button
