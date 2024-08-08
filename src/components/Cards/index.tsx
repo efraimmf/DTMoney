@@ -1,10 +1,14 @@
 "use client"
 
 import Image from "next/image";
-import {useTransactions} from "@/app/context/Transactions";
+
+import {calculateTotals} from "@/utils";
+import {useTransaction} from "@/hooks/useTransaction";
+
 
 export default function Cards() {
-    const { totals } = useTransactions();
+    const {data: transactions = []} = useTransaction.GetAllTransaction ();
+    const totals = calculateTotals(transactions)
 
     const cards = [
         {

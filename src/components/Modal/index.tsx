@@ -2,40 +2,33 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ITransaction } from "@/types/transaction";
+import { useTransaction } from "@/hooks/useTransaction";
 
 interface ModalProps {
     closeModal: () => void;
-    addTransaction: (transaction: {
-        title: string;
-        price: number;
-        category: string;
-        type: 'income' | 'outcome';
-    }) => Promise<void>;
 }
+
+type NewTransaction = Omit<ITransaction, "id" | "createdAt" | "updatedAt">;
 
 export default function Modal(modalProps: ModalProps) {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
-    const [type, setType] = useState<'income' | 'outcome'>();
+    const [type, setType] = useState<'income' | 'outcome' | undefined>(undefined);
+    const { mutate: createTransaction } = useTransaction.CreateTransaction();
 
-    const handleAddTransaction = async () => {
-        const priceNumber = parseFloat(price.replace(/[^0-9.-]+/g, ""));
-        if (isNaN(priceNumber)) {
-            alert('Preço inválido');
-            return;
-        }
-        try {
-            await modalProps.addTransaction({
+    const handleAddTransaction = () => {
+        if (type) {
+            const priceNumber = parseFloat(price.replace(/[^0-9.-]+/g, ""));
+            const transactionData: NewTransaction = {
                 title,
                 price: priceNumber,
                 category,
-                type: type ?? 'income',
-            });
+                type,
+            };
+            createTransaction(transactionData as ITransaction);
             modalProps.closeModal();
-        } catch (error) {
-            alert('Erro ao adicionar transação');
-            console.error(error);
         }
     };
 
@@ -45,7 +38,7 @@ export default function Modal(modalProps: ModalProps) {
                 <button
                     onClick={modalProps.closeModal}
                     className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-700 text-2xl">
-                    &times;
+                    ×
                 </button>
                 <div className="p-8 flex-1">
                     <h3 className="text-2xl font-semibold leading-6 text-title mb-6 ml-6 mt-8">Cadastrar Transação</h3>
@@ -94,7 +87,8 @@ export default function Modal(modalProps: ModalProps) {
                     </div>
                 </div>
                 <div className="py-7 px-8 flex items-center justify-center">
-                    <button onClick={handleAddTransaction} className="w-[480px] h-[64px] bg-income-value text-white font-semibold rounded-md hover:bg-green-700">Cadastrar</button>
+                    <button onClick={handleAddTransaction}
+                            className="w-[480px] h-[64px] bg-income-value text-white font-semibold rounded-md hover:bg-green-700">Cadastrar</button>
                 </div>
             </div>
         </div>

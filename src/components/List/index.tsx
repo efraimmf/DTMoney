@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { useTransactions } from "@/app/context/Transactions";
+import {useTransaction} from "@/hooks/useTransaction";
 
 export default function List() {
-    const { transactions } = useTransactions();
+    const { data: transactions = [] } = useTransaction.GetAllTransaction();
 
     const formatDate = (dateString?: string) => {
         if (!dateString) return 'Data não disponível';

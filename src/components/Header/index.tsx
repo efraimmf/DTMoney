@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { useTransactions } from "@/app/context/Transactions";
+
 import Modal from "@/components/Modal";
 
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { addTransaction } = useTransactions();
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -22,7 +21,7 @@ export default function Header() {
                         onClick={openModal}> Nova Transação </button>
                 </div>
             </header>
-            {isModalOpen && <Modal closeModal={closeModal} addTransaction={addTransaction} />}
+            {isModalOpen && <Modal closeModal={closeModal} />}
         </>
     );
 }
