@@ -6,5 +6,3 @@ export interface ITransaction {
     createdAt: string;
     type: "income" | "outcome";
 }
-
-export type NewTransaction = Omit<ITransaction, "id" | "createdAt" | "updatedAt">;

@@ -1,23 +1,28 @@
 "use client"
+
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-const queryClient = new QueryClient()
+import React from "react";
+
+const queryClient = new QueryClient();
 
 const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"]}
-);
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700"]
+});
 
-export default function RootLayout({children,}: Readonly<{
-  children: React.ReactNode; }>) {
-  return (
-      <html lang="en">
+export default function RootLayout({ children}: { children: React.ReactNode, pageProps: any }) {
+    return (
+        <html lang="en">
+        <head>
+            <title>DTMoney</title>
+        </head>
         <body className={poppins.className}>
-            <QueryClientProvider client={queryClient}>
-                {children}
-            </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+            {children}
+        </QueryClientProvider>
         </body>
-      </html>
-  );
+        </html>
+    );
 }

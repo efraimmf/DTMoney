@@ -20,3 +20,8 @@ export const calculateTotals = (transactions: ITransaction[]): Totals => {
         {income: 0, outcome: 0, balance: 0},
     );
 };
+
+export const formatDate = (dateString?: string) =>{
+    const date = new Date(dateString!);
+    return date.toLocaleDateString('pt-BR')
+}

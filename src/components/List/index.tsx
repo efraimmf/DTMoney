@@ -1,20 +1,10 @@
 "use client";
 
-import React from "react";
-import {useTransaction} from "@/hooks/useTransaction";
+import { useTransaction } from "@/hooks/useTransaction";
+import { formatDate } from "@/utils";
 
 export default function List() {
     const { data: transactions = [] } = useTransaction.GetAllTransaction();
-
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return 'Data não disponível';
-
-        const date = new Date(dateString);
-
-        if (isNaN(date.getTime())) return 'Data inválida';
-
-        return date.toLocaleDateString('pt-BR');
-    };
 
     return (
         <div className="container mx-auto p-4">
