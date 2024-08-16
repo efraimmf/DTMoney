@@ -1,3 +1,5 @@
+"use client"
+
 import {ITransaction} from "@/types/transaction";
 
 interface Totals {
